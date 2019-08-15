@@ -1,12 +1,13 @@
 package template
 
 import (
-	"ebreader/config"
 	"encoding/xml"
 	"html/template"
 	"io/ioutil"
 	"os"
 	"path"
+
+	"github.com/hardo/ebreader/config"
 )
 
 type (

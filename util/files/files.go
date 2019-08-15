@@ -2,12 +2,13 @@ package files
 
 import (
 	"archive/zip"
-	"ebreader/config"
 	"errors"
 	"io"
 	"os"
 	"path"
 	"strings"
+
+	"github.com/hardo/ebreader/config"
 )
 
 var ()

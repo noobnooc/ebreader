@@ -1,9 +1,10 @@
 package server
 
 import (
-	"ebreader/config"
 	"fmt"
 	"net/http"
+
+	"github.com/hardo/ebreader/config"
 )
 
 //Run Listen the server

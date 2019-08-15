@@ -1,13 +1,14 @@
 package main
 
 import (
-	"ebreader/config"
-	"ebreader/server"
-	"ebreader/util/files"
-	"ebreader/util/template"
 	"fmt"
 	"log"
 	"path"
+
+	"github.com/hardo/ebreader/config"
+	"github.com/hardo/ebreader/server"
+	"github.com/hardo/ebreader/util/files"
+	"github.com/hardo/ebreader/util/template"
 )
 
 func main() {
