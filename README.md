@@ -17,7 +17,7 @@ go install
 ## Usage
 
 - Type `ebreader file.epub` on terminal:
-- 
+
 ```bash
 ebreader OReilly.Introducing.Go.2016.1.epub 
 
