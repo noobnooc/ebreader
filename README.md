@@ -7,7 +7,7 @@ A epub reader for browser
 - With GO:
 
 ```bash
-go install https://github.com/hardo/ebreader
+go get github.com/hardo/ebreader
 
 ebreader
 ```

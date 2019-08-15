@@ -11,8 +11,6 @@ import (
 	"github.com/hardo/ebreader/config"
 )
 
-var ()
-
 //Unepub Unzip the epub file
 func Unepub() error {
 	reader, err := zip.OpenReader(config.File)
