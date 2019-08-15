@@ -6,10 +6,11 @@ import (
 	"html/template"
 	"io/ioutil"
 	"os"
+	"path"
 )
 
 type (
-	//NavMap 解析后的图书目录表
+	//NavMap The nap map for the book
 	NavMap struct {
 		Title  string `xml:"docTitle>text"`
 		Author string `xml:"docAuthor>text"`
@@ -28,22 +29,23 @@ type (
 )
 
 var (
-	path   string
-	navMap NavMap
+	workingPath string
+	navMap      NavMap
 )
 
 //Build 构造页面框架
 func Build(p string) error {
-	path = p
+	workingPath = p
 
 	err := parseToc()
 	if err != nil {
 		return err
 	}
 
-	// 如果原目录中已存在index.html，则重命名为index.bak.html
-	indexPath := config.Path + "/index.html"
-	os.Rename(indexPath, config.Path+"/index.bak.html")
+	// Back original "index.html" to "index.back.html" if it exists.
+	indexPath := path.Join(config.Path, "index.html")
+	indexBackPath := path.Join(config.Path, "index.back.html")
+	os.Rename(indexPath, indexBackPath)
 
 	err = parseTemplate(indexPath)
 	if err != nil {
@@ -53,7 +55,6 @@ func Build(p string) error {
 	return nil
 }
 
-//渲染模板
 func parseTemplate(file string) error {
 	t := template.New("template")
 	t = t.Funcs(template.FuncMap{"getFirstSrc": getFirstSrc})
@@ -82,9 +83,9 @@ func getFirstSrc(navs []nav) string {
 	return navs[0].Src.URL
 }
 
-//parseToc 解析图书的目录
+//parseToc Parse table of contents
 func parseToc() error {
-	file, err := os.Open(path)
+	file, err := os.Open(workingPath)
 	if err != nil {
 		return err
 	}

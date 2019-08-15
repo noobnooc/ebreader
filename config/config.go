@@ -4,26 +4,31 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path"
 )
 
+const defaultPort = 4444
+
 var (
-	//File 要操作的文件名
+	//File The epub file to open
 	File string
-	//Port 服务器绑定的端口
+	//Port The port to listen
 	Port int
-	//Path 服务器监听路径（临时目录）
+	//Address The address to listen
+	Address string
+	//Path Working directory
 	Path string
 )
 
 func init() {
-	initConfig()
-	Path += "/ebreader"
+	initOptions()
+	Path += path.Join(Path, "ebreader")
 }
 
-//initConfig 解析命令行参数，初始化配置
-func initConfig() {
-	flag.IntVar(&Port, "p", 4444, "程序绑定的端口")
-	flag.StringVar(&Path, "P", "/tmp", "Ebreader临时工作目录")
+func initOptions() {
+	flag.IntVar(&Port, "p", defaultPort, "The port ebreader will listen on.")
+	flag.StringVar(&Path, "w", os.TempDir(), "The working directory of ebreader.")
+	flag.StringVar(&Address, "a", "127.0.0.1", "The address to listen.")
 	flag.Parse()
 
 	if flag.NArg() != 1 {
@@ -32,10 +37,9 @@ func initConfig() {
 	File = flag.Arg(0)
 }
 
-//showHelper 显示帮助信息
 func showHelper() {
-	fmt.Println("EBReader用法：")
-	fmt.Println("\t ebreader [-options=value] filename")
+	fmt.Println("Usage：")
+	fmt.Println("  ebreader [-options=value] filename")
 	fmt.Println()
 	fmt.Println("Options:")
 	fmt.Println()

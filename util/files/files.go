@@ -6,16 +6,17 @@ import (
 	"errors"
 	"io"
 	"os"
+	"path"
 	"strings"
 )
 
 var ()
 
-//Unepub 解压配置中的epub文件
+//Unepub Unzip the epub file
 func Unepub() error {
 	reader, err := zip.OpenReader(config.File)
 	if err != nil {
-		return errors.New("文件不存在或打开文件出错！")
+		return errors.New("Open file failed")
 	}
 	defer reader.Close()
 
@@ -48,7 +49,7 @@ func Unepub() error {
 	return nil
 }
 
-//Clean 清理工作目录
+//Clean Clear the working directory
 func Clean() error {
 	if strings.HasSuffix(config.Path, "ebreader") {
 		err := os.RemoveAll(config.Path)
@@ -59,7 +60,7 @@ func Clean() error {
 	return nil
 }
 
-//getPath 根据完整路径获得相应的目录
 func getPath(file string) string {
-	return file[0:strings.LastIndex(file, "/")]
+	path, _ := path.Split(file)
+	return path
 }

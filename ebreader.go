@@ -7,6 +7,7 @@ import (
 	"ebreader/util/template"
 	"fmt"
 	"log"
+	"path"
 )
 
 func main() {
@@ -16,19 +17,18 @@ func main() {
 func start() {
 	files.Clean()
 
-	fmt.Println("正在打开文件......")
+	fmt.Println("Opening file......")
 	err := files.Unepub()
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fmt.Println("正在解析文件......")
-	err = template.Build(config.Path + "/toc.ncx")
+	fmt.Println("Extracting file to working directory......")
+	err = template.Build(path.Join(config.Path, "toc.ncx"))
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fmt.Println("开始监听本地端口......")
 	err = server.Run()
 	if err != nil {
 		log.Fatalln(err)
