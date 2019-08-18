@@ -7,13 +7,11 @@ import (
 	"os"
 	"path"
 	"strings"
-
-	"github.com/hardo/ebreader/config"
 )
 
 //Unepub Unzip the epub file
-func Unepub() error {
-	reader, err := zip.OpenReader(config.File)
+func Unepub(workingPath string, filePath string) error {
+	reader, err := zip.OpenReader(filePath)
 	if err != nil {
 		return errors.New("Open file failed")
 	}
@@ -22,7 +20,7 @@ func Unepub() error {
 	for _, file := range reader.File {
 		lowerName := strings.ToLower(file.Name)
 		if strings.HasPrefix(lowerName, "oebps") && !strings.HasSuffix(lowerName, "/") {
-			newName := config.Path + file.Name[strings.Index(lowerName, "/"):]
+			newName := workingPath + file.Name[strings.Index(lowerName, "/"):]
 			err := os.MkdirAll(getPath(newName), 0755)
 			if err != nil {
 				return err
@@ -49,9 +47,9 @@ func Unepub() error {
 }
 
 //Clean Clear the working directory
-func Clean() error {
-	if strings.HasSuffix(config.Path, "ebreader") {
-		err := os.RemoveAll(config.Path)
+func Clean(path string) error {
+	if strings.HasSuffix(path, "ebreader") {
+		err := os.RemoveAll(path)
 		if err != nil {
 			return err
 		}

@@ -6,8 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-
-	"github.com/hardo/ebreader/config"
 )
 
 type (
@@ -30,22 +28,19 @@ type (
 )
 
 var (
-	workingPath string
-	navMap      NavMap
+	navMap NavMap
 )
 
 //Build 构造页面框架
-func Build(p string) error {
-	workingPath = p
-
-	err := parseToc()
+func Build(workingPath string, tocPath string) error {
+	err := parseToc(tocPath)
 	if err != nil {
 		return err
 	}
 
 	// Back original "index.html" to "index.back.html" if it exists.
-	indexPath := path.Join(config.Path, "index.html")
-	indexBackPath := path.Join(config.Path, "index.back.html")
+	indexPath := path.Join(workingPath, "index.html")
+	indexBackPath := path.Join(workingPath, "index.back.html")
 	os.Rename(indexPath, indexBackPath)
 
 	err = parseTemplate(indexPath)
@@ -85,8 +80,8 @@ func getFirstSrc(navs []nav) string {
 }
 
 //parseToc Parse table of contents
-func parseToc() error {
-	file, err := os.Open(workingPath)
+func parseToc(tocPath string) error {
+	file, err := os.Open(tocPath)
 	if err != nil {
 		return err
 	}

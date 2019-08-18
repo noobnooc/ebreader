@@ -16,21 +16,21 @@ func main() {
 }
 
 func start() {
-	files.Clean()
+	files.Clean(config.Path)
 
 	fmt.Println("Opening file......")
-	err := files.Unepub()
+	err := files.Unepub(config.Path, config.File)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	fmt.Println("Extracting file to working directory......")
-	err = template.Build(path.Join(config.Path, "toc.ncx"))
+	err = template.Build(config.Path, path.Join(config.Path, "toc.ncx"))
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	err = server.Run()
+	err = server.Run(config.Address, config.Port, config.Path)
 	if err != nil {
 		log.Fatalln(err)
 	}
